@@ -17,7 +17,7 @@ create table if not exists public.reviews (
   mood        text,
   tags        text[] default '{}',
   is_public   boolean default false,
-  user_id     uuid references auth.users(id) on delete cascade,
+  user_id     uuid not null references auth.users(id) on delete cascade,
   created_at  timestamptz default now(),
   updated_at  timestamptz default now()
 );
@@ -67,7 +67,18 @@ create trigger trg_reviews_updated_at
 alter table public.reviews enable row level security;
 
 -- ------------------------------------------------------------
--- 5. RLS 权限策略
+-- 5. 表级权限 grant
+--    RLS 只管"哪些行可见"，不等于表一定能被角色访问，需要显式 grant
+-- ------------------------------------------------------------
+
+-- anon（未登录访客）：只能读取（公开复盘由 RLS 策略过滤）
+grant select on public.reviews to anon;
+
+-- authenticated（登录用户）：可以对自己的复盘做增删改查
+grant select, insert, update, delete on public.reviews to authenticated;
+
+-- ------------------------------------------------------------
+-- 6. RLS 权限策略
 -- ------------------------------------------------------------
 
 -- 5.1 公开读取：所有人（包括未登录访客）可以读取 is_public = true 的复盘
