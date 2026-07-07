@@ -27,14 +27,15 @@ NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key
 ```
 
-## 基础目录
+## 当前结构
 
 ```text
-app/                 Next.js App Router 页面和全局布局
-components/          可复用 React 组件
-lib/supabase/        Supabase browser/server client
-public/              静态资源
-docs/                项目文档
+app/                 Next.js App Router 页面、登录页和管理端 actions
+lib/                 Supabase client、鉴权和 reviews 数据访问层
+supabase/            Supabase seed 数据
+docs/                项目文档和 PR 流程记录
+.github/workflows/   GitHub Actions CI
+schema.sql           Supabase reviews 表和 RLS 策略
 ```
 
 ## 常用命令

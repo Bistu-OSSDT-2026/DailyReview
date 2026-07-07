@@ -19,7 +19,8 @@ export default function Home() {
           </h1>
           <p className="mt-5 text-lg leading-8 text-slate-700">
             用 Next.js、TypeScript、Tailwind CSS 和 Supabase 搭建的团队协作项目。
-            当前已完成第 0 步项目初始化，后续模块可以在清晰目录结构上并行推进。
+            当前已完成项目初始化、CI、Supabase 数据库基础模块以及登录鉴权与数据访问层。
+            下一步进入管理端编辑模块。
           </p>
         </div>
 
@@ -47,15 +48,15 @@ export default function Home() {
             </p>
           </div>
           <div className="rounded-lg border border-slate-200 bg-white/80 p-5 shadow-sm">
-            <h2 className="text-lg font-semibold text-slate-950">基础目录</h2>
+            <h2 className="text-lg font-semibold text-slate-950">当前结构</h2>
             <p className="mt-3 text-sm leading-6 text-slate-700">
-              app、components、lib/supabase、public、docs 已创建。
+              app、lib、supabase、docs、.github/workflows 和 schema.sql 已建立。
             </p>
           </div>
           <div className="rounded-lg border border-slate-200 bg-white/80 p-5 shadow-sm">
             <h2 className="text-lg font-semibold text-slate-950">下一步</h2>
             <p className="mt-3 text-sm leading-6 text-slate-700">
-              成员 B 可继续准备 Supabase schema，你可以继续接入鉴权与数据访问层。
+              开始管理端编辑模块，接入复盘编辑页面并复用已完成的 Server Actions 和 reviews 数据访问层。
             </p>
           </div>
         </div>
