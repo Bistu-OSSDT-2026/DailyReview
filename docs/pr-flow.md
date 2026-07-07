@@ -10,13 +10,22 @@ For each feature or infrastructure task, create the GitHub Issue before opening 
 4. Add a closing keyword in the PR body, for example `Closes #7`.
 5. After review and CI pass, merge the PR so GitHub closes the linked Issue automatically.
 
-## Migration backfill
+## Migration backfills
 
-During the DailyReview repository migration, the Supabase database task was implemented and merged before its tracking Issue was created.
+During the DailyReview repository migration, some tasks were implemented and merged before their tracking Issues were created. The records below document those historical relationships.
+
+### Supabase database module
 
 - Tracking Issue: #7
 - Implementation PR: #5
 - Branch: `feature/supabase-schema`
 - Scope: Supabase `reviews` table, seed data, RLS policies, grants, and setup documentation.
 
-This note records the historical relationship between Issue #7 and PR #5. Future tasks should follow the standard workflow above so the Issue is created before the PR and closed by the PR merge event.
+### Auth and data access layer
+
+- Tracking Issue: #9
+- Implementation PR: #6
+- Branch: `feature/auth-and-data-layer`
+- Scope: login page, Supabase Auth helpers, current-user lookup, admin route protection, review data access functions, and admin Server Actions.
+
+Future tasks should follow the standard workflow above so the Issue is created before the PR and closed by the PR merge event.
