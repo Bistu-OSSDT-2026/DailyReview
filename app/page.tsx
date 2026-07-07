@@ -19,8 +19,8 @@ export default function Home() {
           </h1>
           <p className="mt-5 text-lg leading-8 text-slate-700">
             用 Next.js、TypeScript、Tailwind CSS 和 Supabase 搭建的团队协作项目。
-            当前已完成项目初始化、CI、Supabase 数据库基础模块以及登录鉴权与数据访问层。
-            下一步进入管理端编辑模块。
+            当前已完成项目初始化、CI、Supabase 数据库基础模块、登录鉴权与数据访问层以及管理端编辑模块。
+            下一步进入首页热力图模块。
           </p>
         </div>
 
@@ -56,7 +56,7 @@ export default function Home() {
           <div className="rounded-lg border border-slate-200 bg-white/80 p-5 shadow-sm">
             <h2 className="text-lg font-semibold text-slate-950">下一步</h2>
             <p className="mt-3 text-sm leading-6 text-slate-700">
-              开始管理端编辑模块，接入复盘编辑页面并复用已完成的 Server Actions 和 reviews 数据访问层。
+              开始首页热力图模块，接入年度热力图、年份切换、日期详情面板和统计组件。
             </p>
           </div>
         </div>

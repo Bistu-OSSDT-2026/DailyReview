@@ -30,8 +30,10 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key
 ## 当前结构
 
 ```text
-app/                 Next.js App Router 页面、登录页和管理端 actions
+app/                 Next.js App Router 页面、登录页、管理端页面和 Server Actions
+components/          可复用 React 组件（ReviewEditor、TagInput、MoodSelector）
 lib/                 Supabase client、鉴权和 reviews 数据访问层
+types/               管理端编辑器类型定义
 supabase/            Supabase seed 数据
 docs/                项目文档和 PR 流程记录
 .github/workflows/   GitHub Actions CI
