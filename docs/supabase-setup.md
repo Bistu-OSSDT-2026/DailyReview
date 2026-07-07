@@ -147,7 +147,7 @@ create table reviews (
   mood        text,                                         -- 心情（如 happy/focused）
   tags        text[] default '{}',                          -- 标签数组
   is_public   boolean default false,                        -- 公开/私密
-  user_id     uuid references auth.users(id),               -- 创建者
+  user_id     uuid not null references auth.users(id) on delete cascade, -- 创建者
   created_at  timestamptz default now(),                    -- 创建时间
   updated_at  timestamptz default now()                     -- 更新时间（触发器自动维护）
 );
