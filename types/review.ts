@@ -13,3 +13,24 @@ export type MoodOption = {
 
 // 🔵 SaveStatus：保存状态（ReviewEditor 组件用）
 export type SaveStatus = "idle" | "saving" | "success" | "error";
+
+// ============================================================
+// 首页热力图模块的类型定义
+// 说明：HeatmapItem 已在 @/lib/reviews 中定义，
+//       这里只放统计卡片和日期详情面板需要的展示类型。
+// ============================================================
+
+export type StatItem = {
+  label: string;
+  value: string | number;
+  hint?: string;
+};
+
+export type DayDetail = {
+  date: string;
+  title: string;
+  summary: string;
+  mood?: string;
+  tags: string[];
+  count: number;
+};
