@@ -23,7 +23,7 @@
 | 管理端 Supabase 真实写入 | [#23](https://github.com/Bistu-OSSDT-2026/DailyReview/issues/23) | `feature/admin-supabase-integration` | [#24](https://github.com/Bistu-OSSDT-2026/DailyReview/pull/24) | merged |
 | 贡献流程文档 | [#25](https://github.com/Bistu-OSSDT-2026/DailyReview/issues/25) | `docs/contributing-guide` | [#26](https://github.com/Bistu-OSSDT-2026/DailyReview/pull/26) | merged |
 | README 与 CHANGELOG 收尾 | [#27](https://github.com/Bistu-OSSDT-2026/DailyReview/issues/27) | `docs/readme-changelog` | [#28](https://github.com/Bistu-OSSDT-2026/DailyReview/pull/28) | merged |
-| 发布说明与证据链索引 | [#29](https://github.com/Bistu-OSSDT-2026/DailyReview/issues/29) | `docs/release-evidence` | 本次文档 PR | in progress |
+| 发布说明与证据链索引 | [#29](https://github.com/Bistu-OSSDT-2026/DailyReview/issues/29) | `docs/release-evidence` | [#30](https://github.com/Bistu-OSSDT-2026/DailyReview/pull/30) | in progress |
 
 ## 代表性 Review 与问题处理
 
