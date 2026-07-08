@@ -23,9 +23,9 @@
 1. 进入 **Project Settings** → **API**。
 2. 找到以下两项：
    - **Project URL** — 形如 `https://xxxxxxxxxxxx.supabase.co`
-   - **Project API keys** → **anon public** — 以 `eyJ...` 开头的长字符串
+   - **Project API keys** → **Publishable key**，也可以兼容使用旧版 anon public key
 
-> ⚠️ 使用 **anon public** 密钥（即 publishable key），**不要**使用 service_role key。
+> ⚠️ 使用 **Publishable key** 或旧版 **anon public** key，**不要**使用 service_role key。
 
 ---
 
@@ -41,7 +41,7 @@
 
    ```bash
    NEXT_PUBLIC_SUPABASE_URL=https://xxxxxxxxxxxx.supabase.co
-   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6...
+   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_xxx_or_anon_public_key
    ```
 
 3. `.env.local` 已在 `.gitignore` 中，不会被提交到仓库。
@@ -205,7 +205,7 @@ A: 请先在 Authentication → Users 中注册一个测试账号，然后重新
 
 ### Q: 前端连接 Supabase 报 401
 
-A: 检查 `.env.local` 中的 URL 和 Key 是否正确，确保使用的是 anon public key 而非 service_role key。
+A: 检查 `.env.local` 中的 URL 和 Key 是否正确，确保使用的是 publishable/anon public key 而非 service_role key。
 
 ### Q: RLS 策略不生效
 
@@ -218,3 +218,39 @@ A: 在 SQL Editor 中执行：
 drop table if exists public.reviews cascade;
 ```
 然后重新执行 `schema.sql` 和 `supabase/seed.sql`。
+
+---
+
+## 十一、管理端真实写入验证
+
+PR #9 接入后，管理端 `/admin` 表单会通过 Server Action 写入 Supabase：
+
+1. 确认 `.env.local` 已配置：
+
+   ```bash
+   NEXT_PUBLIC_SUPABASE_URL=https://xxxxxxxxxxxx.supabase.co
+   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_xxx_or_anon_public_key
+   ```
+
+2. 确认已执行 `schema.sql`，并且 `reviews` 表已启用 RLS。
+3. 启动本地项目：
+
+   ```bash
+   npm run dev
+   ```
+
+4. 打开 `/login`，使用 Supabase Authentication 中创建的用户登录。
+5. 进入 `/admin`，填写日期、标题、内容、心情、标签和公开状态。
+6. 点击保存。
+7. 页面出现“保存成功”后，进入 Supabase Dashboard → Table Editor → `reviews`，确认新增记录存在。
+8. 如果 `is_public = true`，访问 `/reviews` 和 `/reviews/[date]`，确认公开页面可以读取该记录。
+
+验证失败时优先检查：
+
+- `.env.local` 是否存在并填写正确。
+- 是否误用了 `service_role` key。前端和 Server Action 当前只需要 publishable/anon public key。
+- 登录用户是否存在且已成功登录。
+- `reviews_owner_insert` RLS 策略是否存在。
+- 表级权限是否已执行 `grant select, insert, update, delete on public.reviews to authenticated;`。
+
+线上部署到 Vercel 时，需要在 Vercel Project Settings → Environment Variables 中配置同样的 Supabase 变量。不要把 `.env.local` 或任何真实密钥提交到 GitHub。

@@ -21,7 +21,7 @@ import MoodSelector from "./MoodSelector";
 // ================================================================
 // 表单数据（本地 state 类型，与 actions.ts 的字段对齐）
 // ================================================================
-type FormData = {
+type ReviewFormState = {
   date: string;
   title: string;
   content: string;
@@ -30,28 +30,36 @@ type FormData = {
   is_public: boolean;
 };
 
-// ================================================================
-// 主组件
-// ================================================================
-export default function ReviewEditor() {
-  const [formData, setFormData] = useState<FormData>({
+function createInitialFormState(): ReviewFormState {
+  return {
     date: new Date().toISOString().split("T")[0],
     title: "",
     content: "",
     mood: "",
     tags: [],
     is_public: false,
-  });
+  };
+}
+
+// ================================================================
+// 主组件
+// ================================================================
+export default function ReviewEditor() {
+  const [formData, setFormData] = useState<ReviewFormState>(
+    createInitialFormState,
+  );
 
   const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
   const [errors, setErrors] = useState<{ date?: string; title?: string }>({});
+  const [saveMessage, setSaveMessage] = useState<string | null>(null);
 
   // ========== 更新表单字段 ==========
-  const updateField = <K extends keyof FormData>(
+  const updateField = <K extends keyof ReviewFormState>(
     field: K,
-    value: FormData[K]
+    value: ReviewFormState[K],
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    setSaveMessage(null);
     if (errors[field as keyof typeof errors]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }));
     }
@@ -59,6 +67,7 @@ export default function ReviewEditor() {
 
   // ========== 表单校验 ==========
   const validate = (): boolean => {
+    setSaveMessage(null);
     const newErrors: typeof errors = {};
     if (!formData.date.trim()) newErrors.date = "请选择日期";
     if (!formData.title.trim()) newErrors.title = "请输入标题";
@@ -85,12 +94,19 @@ export default function ReviewEditor() {
       // is_public: checkbox 方式，勾选时传 "on"
       if (formData.is_public) data.set("is_public", "on");
 
-      await createReviewAction(data);
+      const savedReview = await createReviewAction(data);
 
+      setFormData(createInitialFormState());
       setSaveStatus("success");
+      setSaveMessage(`已保存到 Supabase：${savedReview.title}`);
       setTimeout(() => setSaveStatus("idle"), 3000);
-    } catch {
+    } catch (error) {
       setSaveStatus("error");
+      setSaveMessage(
+        error instanceof Error
+          ? error.message
+          : "保存失败，请确认已登录并正确配置 Supabase 环境变量。",
+      );
     }
   };
 
@@ -210,6 +226,18 @@ export default function ReviewEditor() {
           <span className="text-red-600 text-sm font-medium">❌ 保存失败，请重试</span>
         )}
       </div>
+
+      {saveMessage && (
+        <p
+          className={`rounded-md border px-3 py-2 text-sm ${
+            saveStatus === "error"
+              ? "border-red-200 bg-red-50 text-red-700"
+              : "border-green-200 bg-green-50 text-green-700"
+          }`}
+        >
+          {saveMessage}
+        </p>
+      )}
     </form>
   );
 }
