@@ -1,4 +1,4 @@
-const roadmap = [
+﻿const roadmap = [
   "项目骨架",
   "Supabase 数据层",
   "管理端编辑",
@@ -19,8 +19,8 @@ export default function Home() {
           </h1>
           <p className="mt-5 text-lg leading-8 text-slate-700">
             用 Next.js、TypeScript、Tailwind CSS 和 Supabase 搭建的团队协作项目。
-            当前已完成项目初始化、CI、Supabase 数据库基础模块、登录鉴权与数据访问层以及管理端编辑模块。
-            下一步进入首页热力图模块。
+            当前已完成项目初始化、CI、Supabase 数据库基础模块、登录鉴权与数据访问层、管理端编辑模块以及首页热力图模块。
+            本次补充公开复盘列表和详情页，为后续首页统一集成做准备。
           </p>
         </div>
 
@@ -50,13 +50,13 @@ export default function Home() {
           <div className="rounded-lg border border-slate-200 bg-white/80 p-5 shadow-sm">
             <h2 className="text-lg font-semibold text-slate-950">当前结构</h2>
             <p className="mt-3 text-sm leading-6 text-slate-700">
-              app、components、lib、types、supabase、docs、.github/workflows 和 schema.sql 已建立。
+              app、app/reviews、components、lib、types、supabase、docs、.github/workflows 和 schema.sql 已建立。
             </p>
           </div>
           <div className="rounded-lg border border-slate-200 bg-white/80 p-5 shadow-sm">
             <h2 className="text-lg font-semibold text-slate-950">下一步</h2>
             <p className="mt-3 text-sm leading-6 text-slate-700">
-              开始首页热力图模块，接入年度热力图、年份切换、日期详情面板和统计组件。
+              进入首页统一集成，串联热力图、公开复盘入口和后续真实数据写入。
             </p>
           </div>
         </div>
@@ -64,3 +64,5 @@ export default function Home() {
     </main>
   );
 }
+
+
