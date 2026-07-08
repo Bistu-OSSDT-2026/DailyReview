@@ -74,6 +74,29 @@ export async function getReviewByDate(date: string) {
   return data as PublicReview | null;
 }
 
+export async function getAvailableReviewYears() {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("reviews")
+    .select("date")
+    .eq("is_public", true)
+    .order("date", { ascending: true });
+
+  if (error) {
+    throw new Error(`Failed to load available review years: ${error.message}`);
+  }
+
+  const years = Array.from(
+    new Set(
+      (data ?? [])
+        .map((item) => Number(String(item.date).slice(0, 4)))
+        .filter((year) => Number.isFinite(year)),
+    ),
+  ).sort((a, b) => a - b);
+
+  return years.length > 0 ? years : [new Date().getFullYear()];
+}
+
 export async function getHeatmapData(year: number) {
   const supabase = await createClient();
   const start = `${year}-01-01`;

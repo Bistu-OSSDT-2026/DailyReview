@@ -1,4 +1,4 @@
-﻿# DailyReview
+# DailyReview
 
 DailyReview 是一个日常复盘与任务追踪系统，用于记录每日计划、完成情况、问题复盘和阶段总结。
 
@@ -30,8 +30,8 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key
 ## 当前结构
 
 ```text
-app/                 Next.js App Router 页面、登录页、管理端页面、公开复盘页面和 Server Actions
-components/          可复用 React 组件（ReviewEditor、TagInput、MoodSelector、ReviewHeatmap、StatsCards、ReviewCard、MarkdownRenderer、EmptyState）
+app/                 Next.js App Router 页面、首页仪表盘、登录页、管理端页面、公开复盘页面和 Server Actions
+components/          可复用 React 组件（HomeDashboard、ReviewEditor、TagInput、MoodSelector、ReviewHeatmap、StatsCards、ReviewCard、MarkdownRenderer、EmptyState）
 lib/                 Supabase client、鉴权和 reviews 数据访问层
 types/               管理端编辑器和首页展示类型定义
 supabase/            Supabase seed 数据
@@ -48,4 +48,3 @@ npm run build    # 生产构建
 npm run start    # 启动生产服务
 npm run lint     # 运行 ESLint
 ```
-
