@@ -50,7 +50,7 @@ export default function Home() {
           <div className="rounded-lg border border-slate-200 bg-white/80 p-5 shadow-sm">
             <h2 className="text-lg font-semibold text-slate-950">当前结构</h2>
             <p className="mt-3 text-sm leading-6 text-slate-700">
-              app、lib、supabase、docs、.github/workflows 和 schema.sql 已建立。
+              app、components、lib、types、supabase、docs、.github/workflows 和 schema.sql 已建立。
             </p>
           </div>
           <div className="rounded-lg border border-slate-200 bg-white/80 p-5 shadow-sm">
