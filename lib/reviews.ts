@@ -74,6 +74,31 @@ export async function getReviewByDate(date: string) {
   return data as PublicReview | null;
 }
 
+export async function getMyReviewByDate(date: string) {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    throw new Error("You must be signed in to load your review.");
+  }
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("reviews")
+    .select(reviewColumns)
+    .eq("user_id", user.id)
+    .eq("date", date)
+    .order("updated_at", { ascending: false, nullsFirst: false })
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(`Failed to load your review for ${date}: ${error.message}`);
+  }
+
+  return data as Review | null;
+}
+
 export async function getAvailableReviewYears() {
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -154,6 +179,12 @@ export async function createReview(input: ReviewInput) {
 }
 
 export async function updateReview(id: string, input: ReviewUpdateInput) {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    throw new Error("You must be signed in to update a review.");
+  }
+
   const patch: Record<string, string | string[] | boolean | null> = {};
 
   if (input.date !== undefined) patch.date = input.date;
@@ -168,6 +199,7 @@ export async function updateReview(id: string, input: ReviewUpdateInput) {
     .from("reviews")
     .update(patch)
     .eq("id", id)
+    .eq("user_id", user.id)
     .select(reviewColumns)
     .single();
 
@@ -179,10 +211,24 @@ export async function updateReview(id: string, input: ReviewUpdateInput) {
 }
 
 export async function deleteReview(id: string) {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    throw new Error("You must be signed in to delete a review.");
+  }
+
   const supabase = await createClient();
-  const { error } = await supabase.from("reviews").delete().eq("id", id);
+  const { data, error } = await supabase
+    .from("reviews")
+    .delete()
+    .eq("id", id)
+    .eq("user_id", user.id)
+    .select(reviewColumns)
+    .single();
 
   if (error) {
     throw new Error(`Failed to delete review: ${error.message}`);
   }
+
+  return data as Review;
 }

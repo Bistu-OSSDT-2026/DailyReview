@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import {
   createReview,
   deleteReview,
+  getMyReviewByDate,
   type ReviewInput,
   updateReview,
 } from "@/lib/reviews";
@@ -26,31 +27,41 @@ function parseReviewInput(formData: FormData): ReviewInput {
   };
 }
 
-export async function createReviewAction(formData: FormData) {
-  const review = await createReview(parseReviewInput(formData));
-
+function revalidateReviewPaths(date?: string) {
   revalidatePath("/");
   revalidatePath("/admin");
   revalidatePath("/reviews");
+
+  if (date) {
+    revalidatePath(`/reviews/${date}`);
+  }
+}
+
+export async function getMyReviewByDateAction(date: string) {
+  if (!date.trim()) {
+    return null;
+  }
+
+  return getMyReviewByDate(date);
+}
+
+export async function createReviewAction(formData: FormData) {
+  const review = await createReview(parseReviewInput(formData));
+  revalidateReviewPaths(review.date);
 
   return review;
 }
 
 export async function updateReviewAction(id: string, formData: FormData) {
   const review = await updateReview(id, parseReviewInput(formData));
-
-  revalidatePath("/");
-  revalidatePath("/admin");
-  revalidatePath("/reviews");
-  revalidatePath(`/reviews/${review.date}`);
+  revalidateReviewPaths(review.date);
 
   return review;
 }
 
 export async function deleteReviewAction(id: string) {
-  await deleteReview(id);
+  const review = await deleteReview(id);
+  revalidateReviewPaths(review.date);
 
-  revalidatePath("/");
-  revalidatePath("/admin");
-  revalidatePath("/reviews");
+  return review;
 }
